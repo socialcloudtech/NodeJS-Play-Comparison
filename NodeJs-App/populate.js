@@ -8,7 +8,7 @@ var conString = "tcp://postgres:synerzip:5432@localhost/postgres";
 //var conString = "postgres://postgres:synerzip@localhost/postgres";
 var client = new pg.Client(conString);
 
-var CREATE_TABLE = "CREATE TABLE IF NOT EXISTS test_table(name varchar(500) NOT NULL, start_date date NOT NULL, x_coord real NOT NULL, y_coord real NOT NULL, z_coord real NOT NULL, height real NOT NULL);";
+var CREATE_TABLE = "CREATE TABLE IF NOT EXISTS test_table(id SERIAL, name varchar(500) NOT NULL, start_date date NOT NULL, x_coord real NOT NULL, y_coord real NOT NULL, z_coord real NOT NULL, height real NOT NULL);";
 
 var NUMBER_ROWS = 10000;
 
