@@ -1,1 +1,1 @@
-NodeJS API server using restify and mongodb. mongoose used for ODM.
+NodeJS API server using restify or express and postgresql as DB. 'pg' module from nodejs is being used for talking to the db.
