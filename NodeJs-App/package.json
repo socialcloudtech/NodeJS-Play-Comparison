@@ -1,0 +1,19 @@
+{
+    "author": " <nachiket.kakatkar@synerzip.com>",
+    "name": "nodejs-mongodb-apiserver",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Synerzip/NodeJS-Play-Comparison.git"
+    },
+    "dependencies": {
+        "express": "latest",
+        "mongoose": "latest",
+        "cluster2": "latest"
+    },
+    "devDependencies": {},
+    "optionalDependencies": {},
+    "engines": {
+        "node": "*"
+    }
+}
