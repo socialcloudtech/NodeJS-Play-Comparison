@@ -7,9 +7,7 @@
         "url": "git://github.com/Synerzip/NodeJS-Play-Comparison.git"
     },
     "dependencies": {
-        "express": "latest",
         "pg": "latest",
-        "cluster2": "latest",
         "restify": "latest"
     },
     "devDependencies": {},
