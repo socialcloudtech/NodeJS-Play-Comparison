@@ -4,7 +4,7 @@ var pg = require('pg');
 
 //console.log("length = [" + process.argv.length + "] ");
 
-var conString = "tcp://postgres:synerzip:5432@localhost/postgres";
+var conString = "tcp://postgres:password:5432@localhost/postgres";
 //var conString = "postgres://postgres:synerzip@localhost/postgres";
 var client = new pg.Client(conString);
 
