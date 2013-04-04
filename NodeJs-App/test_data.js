@@ -6,12 +6,14 @@ module.exports = {
 	init: function (cb) {
 		if(client !== null) {
 			cb(null);
+			return;
 		}
 		client = new pg.Client(conString);
 		client.connect(function(err) {
 			if(err) {
 				console.log("Error while connecting. Error : " + err.message);
 				cb(err);
+				return;
 			}
 			console.log("Succesfully Connected");
 			cb(null);

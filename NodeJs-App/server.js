@@ -2,7 +2,7 @@
 var restify = require('restify');
 var data = require('./test_data');
 
-function respond(req, res, next) {
+function respondCoordsId(req, res, next) {
 	var id = req.params["id"];
 	//check sanity of id
 	data.getCoordinatesForId(id, 'JSON', function(responseCode, resultJSON) {
@@ -12,7 +12,7 @@ function respond(req, res, next) {
 }
 
 var server = restify.createServer();
-server.get('/coords/:id', respond);
+server.get('/coords/:id', respondCoordsId);
 
 data.init(function(err){
 	if(err){
