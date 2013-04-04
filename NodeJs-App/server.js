@@ -7,7 +7,7 @@ function respondCoordsId(req, res, next) {
 	//check sanity of id
 	data.getCoordinatesForId(id, 'JSON', function(responseCode, resultJSON) {
 		res.send(responseCode, resultJSON);
-		next();
+		return next();
 	});
 }
 
