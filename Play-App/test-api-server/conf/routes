@@ -5,5 +5,9 @@
 # Home page
 GET     /                           controllers.Application.index()
 
+#get coords on the id /coords/id/1234
+
+GET		/coords/id/:id							controllers.Application.getCoordsOnId(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
