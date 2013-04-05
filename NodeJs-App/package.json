@@ -8,7 +8,9 @@
     },
     "dependencies": {
         "pg": "latest",
-        "restify": "latest"
+        "restify": "latest",
+        "sequelize": "latest",
+        "sequelize-postgres": "latest"
     },
     "devDependencies": {},
     "optionalDependencies": {},
