@@ -2,6 +2,12 @@ var pg = require('pg'),
     conString = "postgres://postgres:synerzip@localhost/postgres",
     client = null;
 
+/**
+ * Helper function to prepare array from data returned  from query
+ * @param {Object} queryText : the SQL statement for query
+ * @param {Object} paramsMap : Mapping of column name and parameter name
+ * @param {Obejct} cb : callback (resObject) : callback to call after completion, gives the result array
+ */
 function getResultArrayForQuery(queryText, paramsMap, cb){
 	var resultArray = [],
 	    query = client.query(queryText);
@@ -25,6 +31,10 @@ function getResultArrayForQuery(queryText, paramsMap, cb){
 }
 
 module.exports = {
+	/**
+	* Inititialize the database connection
+	* @param {Object} cb : callback (error) : error is null if connection was successful
+	*/
 	init: function (cb) {
 		if(client !== null) {
 			cb(null);
@@ -41,6 +51,12 @@ module.exports = {
 			cb(null);
 		});
 	},
+	/**
+	* Method to get the coordinates based on only id
+	* @param {Object} id : id for which coordinates required
+	* @param {Object} format : format in which data returned, currently supports only JSON
+	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	*/
 	getCoordinatesForId: function (id, format, cb) {
 		var queryText = "SELECT x_coord, y_coord, z_coord FROM test_table WHERE id = " + id;
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
@@ -55,11 +71,21 @@ module.exports = {
 			cb(200, resultString);
 		});
 	},
+
+	/**
+	* Method to get the coordinates based on only id
+	* @param {Object} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
+	* @param {Object} format : format in which data returned, currently supports only JSON
+	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	*/
 	getCoordinatesForQuery: function(query, format, cb){
 		var coordMap = {"xlt" : "x_coord < ", "xgt": "x_coord > ", "ylt" : "y_coord < ", "ygt": "y_coord > ", "zlt" : "z_coord < ", "zgt": "z_coord > "};
 		var queryText = "SELECT x_coord, y_coord, z_coord from test_table WHERE";
 		var i = 0, condition = "";
 		for (q in query) {
+			if(coordMap[q] == undefined) {
+				cb(404, '{"Error":"Resource not Found"}');
+			}
 			queryText += condition + " " + coordMap[q] + query[q];
 			if (i == 0){
 				condition = " AND";

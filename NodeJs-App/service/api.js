@@ -1,3 +1,5 @@
+//TODO : Use environment variable to chose between simple sql and ORM.
+//var data = require('../db/doa-orm');
 var data = require('../db/doa-directsql');
 
 //inititialize db
@@ -10,6 +12,12 @@ data.init(function(err){
 });
 
 module.exports = {
+	/**
+	* Handler for /coords/id/ type request
+	* @param {Object} req : object representing the http request
+	* @param {Object} res : object for the response
+	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	*/
 	respondCoordsId: function(req, res, next) {
 		var id = req.params["id"];
 		data.getCoordinatesForId(id, 'JSON', function(responseCode, resultJSON) {
@@ -17,9 +25,14 @@ module.exports = {
 			return next();
 		});
 	},
+	/**
+	* Handler for the /coords? type handler
+	* @param {Object} req : object representing the http request
+	* @param {Object} res : object for the response
+	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	*/
 	respondWithQueryParams: function(req, res, next) {
-		console.log('query = ');
-		console.log(req.query.xlt);
+		//console.log('query = ');
 		data.getCoordinatesForQuery(req.query, 'JSON', function(responseCode, result){
 			res.send(responseCode, result);
 			return next();
