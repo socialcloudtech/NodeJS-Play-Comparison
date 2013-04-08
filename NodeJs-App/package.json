@@ -8,7 +8,8 @@
     },
     "dependencies": {
         "pg": "latest",
-        "restify": "latest",
+        "async": "latest",
+		"restify": "latest",
         "sequelize": "latest",
         "sequelize-postgres": "latest"
     },

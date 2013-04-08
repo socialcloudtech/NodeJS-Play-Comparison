@@ -1,6 +1,9 @@
 var pg = require('pg'),
-    conString = "postgres://postgres:synerzip@localhost/postgres",
+	config = require("../config/dbconfig"),
+    conString = conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
     client = null;
+
+var NUMBER_ROWS = 10000;
 
 /**
  * Helper function to prepare array from data returned  from query
@@ -32,7 +35,7 @@ function getResultArrayForQuery(queryText, paramsMap, cb){
 
 module.exports = {
 	/**
-	* Inititialize the database connection
+	* Inititialize the database connection. Also populates the db
 	* @param {Object} cb : callback (error) : error is null if connection was successful
 	*/
 	init: function (cb) {
