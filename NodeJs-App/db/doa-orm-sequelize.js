@@ -3,13 +3,16 @@ var Sequelize = require('sequelize-postgres').sequelize,
 	utils = require ("../utils"),
 	config = require("../config/dbconfig");
 
+process.on('uncaughtException', function(err){
+	console.log("Uncaught Exception");
+	console.log(err);
+});
 
 var sequelize = null,
 	Test = null;
 
-function tableInit(sequelize) {
-	Test.sync({force: true});
-	populateTable(Test);
+function tableInit() {
+	Test.sync({force: false});
 }
 
 module.exports = {
@@ -21,5 +24,6 @@ module.exports = {
 			protocol: config.protocol
 		});
 		Test = sequelize.import(__dirname + "\\models\\TestApp");
+		tableInit();
 	}
 }
