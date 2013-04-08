@@ -1,6 +1,6 @@
 //TODO : Use environment variable to chose between simple sql and ORM.
-//var data = require('../db/doa-orm-sequelize');
-var data = require('../db/doa-directsql');
+var data = require('../db/doa-orm-sequelize');
+//var data = require('../db/doa-directsql');
 
 //inititialize db
 data.init(function(err){
