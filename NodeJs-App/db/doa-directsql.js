@@ -35,7 +35,7 @@ function getResultArrayForQuery(queryText, paramsMap, cb){
 
 module.exports = {
 	/**
-	* Inititialize the database connection. Also populates the db
+	* Inititialize the database connection.
 	* @param {Object} cb : callback (error) : error is null if connection was successful
 	*/
 	init: function (cb) {
@@ -74,9 +74,8 @@ module.exports = {
 			cb(200, resultString);
 		});
 	},
-
 	/**
-	* Method to get the coordinates based on only id
+	* Method to get the coordinates based on X, Y, Z
 	* @param {Object} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
 	* @param {Object} format : format in which data returned, currently supports only JSON
 	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
@@ -98,6 +97,29 @@ module.exports = {
 		queryText += ";";
 		console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
+		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
+			if(err) {
+				cb (404, '{"Error":"' + err.message + '"');
+				return;
+			}
+			if(format == 'JSON') {
+				resultString = JSON.stringify(resultArray);
+			}
+			cb(200, resultString);
+		});
+	},
+	/**
+	* Method to get the coordinates based on height
+	* @param {Object} lt (less than) or gt (greater than)
+	* @param {Object} val: height
+	* @param {Object} format : format in which data returned, currently supports only JSON
+	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	*/
+	getValuesByHeight: function(condn, val, format, cb){
+		var conditionMap = {"gt" : "height > ", "lt": "height < "};
+		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn] + val;
+		//console.log(queryText);
+		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height"};
 		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
