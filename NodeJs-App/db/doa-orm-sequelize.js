@@ -62,31 +62,42 @@ module.exports = {
 		});
 	},
 	getCoordinatesForQuery: function(query, format, cb){
-		var coordMap = {"xlt" : "x_coord < ", "xgt": "x_coord > ", "ylt" : "y_coord < ", "ygt": "y_coord > ", "zlt" : "z_coord < ", "zgt": "z_coord > "};
-		var queryText = "SELECT x_coord, y_coord, z_coord from test_table WHERE";
+		var coordMap = {"xlt" : "x_coord < ?", "xgt": "x_coord > ?", "ylt" : "y_coord < ?", "ygt": "y_coord > ?", "zlt" : "z_coord < ?", "zgt": "z_coord > ?"};
+		//var whereConditions = ["x_coord > ? AND y_coord > ?", query["xgt"], query["ygt"]];
+		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
+		var whereConditions = [""];
 		var i = 0, condition = "";
 		for (q in query) {
 			if(coordMap[q] == undefined) {
 				cb(404, '{"Error":"Resource not Found"}');
+				return;
 			}
-			queryText += condition + " " + coordMap[q] + query[q];
+			var whereText = whereConditions[0];
+			whereText += condition + " " + coordMap[q];
+			whereConditions[0] = whereText;
+			whereConditions.push(query[q]);
 			if (i == 0){
 				condition = " AND";
 				i++;
 			}
 		}
-		queryText += ";";
-		console.log(queryText);
-		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
-		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
-			if(err) {
-				cb (404, '{"Error":"' + err.message + '"');
+		console.log(whereConditions);
+		Test.findAll({where: whereConditions}).success(function(tests){
+			//onsole.log(tests.length);
+			if(tests == null) {
+				cb (404, '{"Error":"No records found!"');
 				return;
 			}
+			var resultArray = getResultArray(paramsMap, tests);
+			var resultString = "{}";
 			if(format == 'JSON') {
 				resultString = JSON.stringify(resultArray);
 			}
 			cb(200, resultString);
+		}).error(function(err){
+			console.log(err);
+			cb (500, '{"Error":"Internal Server Error"');
+			return;
 		});
 	}
 }
