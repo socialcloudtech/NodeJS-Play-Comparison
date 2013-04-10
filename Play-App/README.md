@@ -24,7 +24,8 @@ Download the latest Java [Play binary package](http://www.playframework.com/down
 + $ cd ~
 + $ touch .bash_profile
 + $ vim .bash_profile
-+ export PATH=$PATH/relative/path/to/play
++ export PATH=$PATH:/absolute/path/to/play
++ $ . .bash_profile
 
 Add the above line to .bash_profile and to check that the play command is available hit the following command from shell
 
