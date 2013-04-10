@@ -1,40 +1,21 @@
 //This script is used for populating the database. Databse contains configurable no. of rows
 
 var async = require("async"),
-	utils = require("../../utils"),
+	utils = require("../utils"),
     dataload = require("../doa-orm-sequelize"),
     Sequelize = require('sequelize-postgres').sequelize,
 	postgres  = require('sequelize-postgres').postgres,
 	sequelize = null,
 	chainer = new Sequelize.Utils.QueryChainer,
-	config = require("../../config/dbconfig");
+	config = require("../../config/dbconfig"),
+	NUMBER_ROWS = config.nrows;
 
-var NUMBER_ROWS = 10000;
-
-//funtion to execute the insert row query
-function insertRow(name, date, x, y , z, height, i, client, cb) {
-	var query = "INSERT INTO test_table (name, start_date, x_coord, y_coord, z_coord, height) VALUES ('" + name + "', '" + date + "', " + x + ", " + y + ", " + z + ", " + height + ")";
-    console.log("insert query = " + query);
-    client.query(query, function(err, result) {
-    	if(err) {
-    		console.log("Some error : " + err.message);
-            //return;
-    	} else {
-    		console.log("Succesfully done query " + i);
-    	}
-    	cb(err);
-    });
-}
-
-var generateDataTable = function(nRows, client, cb) {
-	NUMBER_ROWS = nRows;
-	console.log("in generate data table");
-	var createAndFillTable = function() {
-	}
-	console.log("Hi");
-	var DROP_TABLE = 'DROP TABLE test_table';
-}
-
+/**
+ * Function to create and fill the table
+ * @author nachiket
+ * @version 0.1.0
+ * @param {Function} cb : callback function after completion. err is null on success
+ */
 function createTable (cb) {
 	sequelize = new Sequelize(config.db, config.username, config.password, {
   		dialect: 'postgres',
@@ -54,20 +35,25 @@ function createTable (cb) {
 					z_coord: utils.randomReal(),
 					height: utils.randomReal()
 				}));
-			}
-			console.log("Begin to save " + NUMBER_ROWS + " items!");
-			chainer.run().on('success', function() {
+		}
+		console.log("Begin to save " + NUMBER_ROWS + " items!");
+		chainer.run().on('success', function() {
 			console.log("finished");
-				Test.count().on('success', function(count) {
-					console.log("Counted " + count + " elements!");
-				});
+			Test.count().on('success', function(count) {
+				console.log("Counted " + count + " elements!");
 			});
+			cb(null);
 		});
+	}).on('error', function(err) {
+		cb(err);
+	});
 }
 
+//generate the DB
 createTable(function(err){
 	if(err) {
 		console.log(err);
-	} else {		
+	} else {
+		console.log("Succesfully created and populated the tables !");		
 	}	
 });

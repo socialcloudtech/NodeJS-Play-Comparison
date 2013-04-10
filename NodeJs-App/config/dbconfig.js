@@ -4,5 +4,6 @@ module.exports = {
 	port: 5432,
 	password: "synerzip",
 	username: "postgres",
-	protocol: "postgres"
+	protocol: "postgres",
+	nrows: 10000
 }

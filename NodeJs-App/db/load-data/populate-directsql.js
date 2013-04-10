@@ -1,22 +1,27 @@
-//This script is used for populating the database. Databse contains configurable no. of rows
+//This script is used for populating the database. Database contains configurable no. of rows
 
 var async = require("async"),
-	utils = require("../../utils"),
+	utils = require("../utils"),
 	config = require("../../config/dbconfig"),
 	pg = require('pg'),
     conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
+    NUMBER_ROWS = config.nrows
     client = null,
     dataload = require("../doa-directsql");
 
-//var pg = require('pg');
-//var conString = "tcp://postgres:synerzip:5432@localhost/postgres";
-//var conString = "postgres://postgres:synerzip@localhost/postgres";
-//var client = new pg.Client(conString);
-
-var NUMBER_ROWS = 10000;
-
-//funtion to execute the insert row query
-function insertRow(name, date, x, y , z, height, i, client, cb) {
+/**
+ * Helper function to insert given values into table
+ * @author nachiket
+ * @version 0.1.0
+ * @param {String} name : name field
+ * @param {String} date : date field - yyyy-mm-dd
+ * @param {Number} x : x coordinate - floating number
+ * @param {Number} y : y coordinate - floating number
+ * @param {Number} z : z coordinate - floating number
+ * @param {Number} height : height coordinate - floating number
+ * @param {Function} cb : callback (err) : callback to call after completion, err is null on success.
+ */
+function insertRow(name, date, x, y, z, height, i, client, cb) {
 	var query = "INSERT INTO test_table (name, start_date, x_coord, y_coord, z_coord, height) VALUES ('" + name + "', '" + date + "', " + x + ", " + y + ", " + z + ", " + height + ")";
     console.log("insert query = " + query);
     client.query(query, function(err, result) {
@@ -30,11 +35,18 @@ function insertRow(name, date, x, y , z, height, i, client, cb) {
     });
 }
 
-var generateDataTable = function(nRows, client, cb) {
-	NUMBER_ROWS = nRows;
-	console.log("in generate data table");
+/**
+ * Helper function to insert given values into table
+ * @author nachiket
+ * @version 0.1.0
+ * @param {Object} client : pg client after successful connection
+ * @param {Function} cb : callback after all rows are inserted. err is null on success
+ */
+function generateDataTable (client, cb) {
+	//callback function after succesful deletion of first table
 	var createAndFillTable = function() {
-		var CREATE_TABLE = "CREATE TABLE IF NOT EXISTS test_table(id SERIAL, name varchar(500) NOT NULL, start_date date NOT NULL, x_coord real NOT NULL, y_coord real NOT NULL, z_coord real NOT NULL, height real NOT NULL);";
+		var CREATE_TABLE = 'CREATE TABLE IF NOT EXISTS "test_table" ("id"   SERIAL , "name" VARCHAR(255), "start_date" TIMESTAMP WITH TIME ZONE, "x_coord" FLOAT, "y_coord" FLOAT, "z_coord" FLOAT, "height" FLOAT, PRIMARY KEY ("id"))';
+		//var CREATE_TABLE = "CREATE TABLE IF NOT EXISTS test_table(id SERIAL, name varchar(500) NOT NULL, start_date date NOT NULL, x_coord real NOT NULL, y_coord real NOT NULL, z_coord real NOT NULL, height real NOT NULL);";
 		client.query(CREATE_TABLE, function(err, res) {
   			if(err) {
   				console.log("Error while query [" + CREATE_TABLE + " ]" + " : " + err.message);
@@ -68,7 +80,7 @@ var generateDataTable = function(nRows, client, cb) {
 			);
 		});
 	}
-	console.log("Hi");
+	//drop existing table adn create new
 	var DROP_TABLE = 'DROP TABLE test_table';
 	client.query(DROP_TABLE, function(err, res){
 		if(err) {
@@ -82,6 +94,12 @@ var generateDataTable = function(nRows, client, cb) {
 	});
 }
 
+/**
+ * Function to create and fill the table
+ * @author nachiket
+ * @version 0.1.0
+ * @param {Function} cb : callback function after completion. err is null on success
+ */
 function createTable (cb) {
 	if(client !== null) {
 		cb(null);
@@ -95,12 +113,13 @@ function createTable (cb) {
 			return;
 		}
 		console.log("Succesfully Connected");
-		generateDataTable(NUMBER_ROWS, client, function(err) {
+		generateDataTable(client, function(err) {
 			cb(err);
 		});
 	});
 }
 
+// Generate the db
 createTable(function(err){
 	if(err) {
 		console.log(err);
