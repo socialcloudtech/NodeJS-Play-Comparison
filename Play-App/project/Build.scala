@@ -8,6 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
+    "postgresql" % "postgresql" % "9.1-901.jdbc4"
       // Add your project dependencies here,
     )
 
