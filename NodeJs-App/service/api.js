@@ -14,6 +14,8 @@ data.init(function(err){
 module.exports = {
 	/**
 	* Handler for /coords/id route
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
 	* @param {Function} next : must be called so that the next handler in chain is invoked.
@@ -27,6 +29,8 @@ module.exports = {
 	},
 	/**
 	* Handler for the /coords? route
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
 	* @param {Function} next : must be called so that the next handler in chain is invoked.
@@ -40,6 +44,8 @@ module.exports = {
 	},
 	/**
 	* Handler for the /height/gt/:val route
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
 	* @param {Function} next : must be called so that the next handler in chain is invoked.
@@ -54,6 +60,8 @@ module.exports = {
 	},
 	/**
 	* Handler for the /height/lt/:val route
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
 	* @param {Function} next : must be called so that the next handler in chain is invoked.

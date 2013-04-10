@@ -11,6 +11,8 @@ var async = require("async"),
 
 /**
  * Helper function to insert given values into table
+ * @author nachiket
+ * @version 0.1.0
  * @param {String} name : name field
  * @param {String} date : date field - yyyy-mm-dd
  * @param {Number} x : x coordinate - floating number
@@ -35,6 +37,8 @@ function insertRow(name, date, x, y, z, height, i, client, cb) {
 
 /**
  * Helper function to insert given values into table
+ * @author nachiket
+ * @version 0.1.0
  * @param {Object} client : pg client after successful connection
  * @param {Function} cb : callback after all rows are inserted. err is null on success
  */
@@ -92,6 +96,8 @@ function generateDataTable (client, cb) {
 
 /**
  * Function to create and fill the table
+ * @author nachiket
+ * @version 0.1.0
  * @param {Function} cb : callback function after completion. err is null on success
  */
 function createTable (cb) {

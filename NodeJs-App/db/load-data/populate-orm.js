@@ -12,6 +12,8 @@ var async = require("async"),
 
 /**
  * Function to create and fill the table
+ * @author nachiket
+ * @version 0.1.0
  * @param {Function} cb : callback function after completion. err is null on success
  */
 function createTable (cb) {

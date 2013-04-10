@@ -12,6 +12,8 @@ var sequelize = null,
 
 /**
  * Helper function to prepare array from data returned  from query
+ * @author nachiket
+ * @version 0.1.0
  * @param {Object} paramsMap : Mapping of column name and parameter name
  * @param {Array} result : Array of results returned from query
  */
@@ -31,6 +33,8 @@ function getResultArray(paramsMap, result){
 module.exports = {
 	/**
 	* Inititialize the database connection.
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Function} cb : callback (error) : error is null if connection was successful
 	*/
 	init: function (cb) {
@@ -51,6 +55,8 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on only id
+	* @author nachiket
+	* @version 0.1.0
 	* @param {Number} id : id for which coordinates required
 	* @param {String} format : format in which data returned, currently supports only "JSON"
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
@@ -77,6 +83,8 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on X, Y, Z
+	* @author nachiket
+	* @version 0.1.0
 	* @param {String} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
 	* @param {String} format : format in which data returned, currently supports only "JSON"
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
@@ -122,6 +130,8 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on height
+	* @author nachiket
+	* @version 0.1.0
 	* @param {String} condn : 'lt' (less than) or 'gt' (greater than)
 	* @param {Number} val: height
 	* @param {String} format : format in which data returned, currently supports only "JSON"
