@@ -44,3 +44,15 @@ Now change the values for the following variables.
 + db.default.password=password
 
 Detailed information are at [SettingJDBC](http://www.playframework.com/documentation/2.0/SettingsJDBC "SettingJDBC")
+
+#How to run the project#
+
+To run the project open shell/command prompt and do the following steps
+
+1. cd move/to/Play-App
+2. play dependencies 
+3. play clean        
+4. play compile      
+5. play run          
+
+[info] play - Listening for HTTP on port 9000...
