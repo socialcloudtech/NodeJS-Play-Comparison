@@ -1,4 +1,4 @@
-//TODO : Use environment variable to chose between simple sql and ORM.
+//TODO : Use environment variable to choose between simple sql and ORM.
 //var data = require('../db/doa-orm-sequelize');
 var data = require('../db/doa-directsql');
 
@@ -13,10 +13,10 @@ data.init(function(err){
 
 module.exports = {
 	/**
-	* Handler for /coords/id/ type request
+	* Handler for /coords/id route
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
-	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	* @param {Function} next : must be called so that the next handler in chain is invoked.
 	*/
 	respondCoordsId: function(req, res, next) {
 		var id = req.params["id"];
@@ -26,10 +26,10 @@ module.exports = {
 		});
 	},
 	/**
-	* Handler for the /coords? type handler
+	* Handler for the /coords? route
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
-	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	* @param {Function} next : must be called so that the next handler in chain is invoked.
 	*/
 	respondWithQueryParams: function(req, res, next) {
 		//console.log('query = ');
@@ -39,10 +39,10 @@ module.exports = {
 		});
 	},
 	/**
-	* Handler for the /height/gt/:val type handler
+	* Handler for the /height/gt/:val route
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
-	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	* @param {Function} next : must be called so that the next handler in chain is invoked.
 	*/
 	respondForHeightGreaterThan: function(req, res, next) {
 		//console.log('query = ');
@@ -53,10 +53,10 @@ module.exports = {
 		});
 	},
 	/**
-	* Handler for the /height/lt/:val type handler
+	* Handler for the /height/lt/:val route
 	* @param {Object} req : object representing the http request
 	* @param {Object} res : object for the response
-	* @param {Object} next : must be called so that the next handler in chain is invoked.
+	* @param {Function} next : must be called so that the next handler in chain is invoked.
 	*/
 	respondForHeightLessThan: function(req, res, next) {
 		//console.log('query = ');

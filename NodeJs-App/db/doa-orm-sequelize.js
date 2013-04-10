@@ -11,14 +11,13 @@ process.on('uncaughtException', function(err){
 var sequelize = null,
 	Test = null;
 
-function tableInit() {
-	Test.sync({force: false});
-}
-
+/**
+ * Helper function to prepare array from data returned  from query
+ * @param {Object} paramsMap : Mapping of column name and parameter name
+ * @param {Array} result : Array of results returned from query
+ */
 function getResultArray(paramsMap, result){
 	var resultArray = [];
-	//console.log(result["x_coord"]);
-	//if ()
 	for(var r in result) {
 		var obj = {};
 		for(p in paramsMap) {
@@ -33,7 +32,7 @@ function getResultArray(paramsMap, result){
 module.exports = {
 	/**
 	* Inititialize the database connection.
-	* @param {Object} cb : callback (error) : error is null if connection was successful
+	* @param {Function} cb : callback (error) : error is null if connection was successful
 	*/
 	init: function (cb) {
 		sequelize = new Sequelize(config.db, config.username, config.password, {
@@ -43,13 +42,19 @@ module.exports = {
 			protocol: config.protocol
 		});
 		Test = sequelize.import(__dirname + "\\models\\TestApp");
-		tableInit();
+		Test.sync({force: false}).on('success', function() {
+			console.log('Succesfully synced table. ');
+			cb(null);
+		}).on('error', function(err) {
+			console.log('Error while syncing table ' + err.message);
+			cb(err);
+		});
 	},
 	/**
 	* Method to get the coordinates based on only id
-	* @param {Object} id : id for which coordinates required
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* @param {Number} id : id for which coordinates required
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForId: function (id, format, cb) {
 		var queryText = "SELECT x_coord, y_coord, z_coord FROM test_table WHERE id = " + id;
@@ -72,10 +77,10 @@ module.exports = {
 		});
 	},
 	/**
-	* Method to get the coordinates based on x, y, z values
-	* @param {Object} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* Method to get the coordinates based on X, Y, Z
+	* @param {String} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForQuery: function(query, format, cb){
 		var coordMap = {"xlt" : "x_coord < ?", "xgt": "x_coord > ?", "ylt" : "y_coord < ?", "ygt": "y_coord > ?", "zlt" : "z_coord < ?", "zgt": "z_coord > ?"};
@@ -97,7 +102,7 @@ module.exports = {
 				i++;
 			}
 		}
-		console.log(whereConditions);
+		//console.log(whereConditions);
 		Test.findAll({where: whereConditions}).success(function(tests){
 			//onsole.log(tests.length);
 			if(tests == null) {
@@ -117,11 +122,11 @@ module.exports = {
 		});
 	},
 	/**
-	* Method to get the coordinates based on only id
-	* @param {Object} condn: lt (less than) or gt (greater than)
-	* @param {Object} val: height
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* Method to get the coordinates based on height
+	* @param {String} condn : 'lt' (less than) or 'gt' (greater than)
+	* @param {Number} val: height
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getValuesByHeight: function(condn, val, format, cb){
 		var conditionMap = {"gt" : "height > ?", "lt": "height < ?"};

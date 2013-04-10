@@ -5,9 +5,9 @@ var pg = require('pg'),
 
 /**
  * Helper function to prepare array from data returned  from query
- * @param {Object} queryText : the SQL statement for query
+ * @param {String} queryText : the SQL statement for query
  * @param {Object} paramsMap : Mapping of column name and parameter name
- * @param {Obejct} cb : callback (resObject) : callback to call after completion, gives the result array
+ * @param {Function} cb : callback (resObject) : callback to call after completion, gives the result array
  */
 function getResultArrayForQuery(queryText, paramsMap, cb){
 	var resultArray = [],
@@ -16,7 +16,7 @@ function getResultArrayForQuery(queryText, paramsMap, cb){
 		cb(err, null);
 	});
 	query.on('row', function(row) {
-		console.log('result row');
+		//console.log('result row');
 		var resObject = {};
 		for(p in paramsMap) {
 			resObject[paramsMap[p]] = row[p];
@@ -26,7 +26,7 @@ function getResultArrayForQuery(queryText, paramsMap, cb){
 		resultArray.push(resObject);
 	});
 	query.on('end', function(row) {
-		console.log('result end');
+		//console.log('result end');
 		cb(null, resultArray);
 	});
 }
@@ -54,9 +54,9 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on only id
-	* @param {Object} id : id for which coordinates required
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* @param {Number} id : id for which coordinates required
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForId: function (id, format, cb) {
 		var queryText = "SELECT x_coord, y_coord, z_coord FROM test_table WHERE id = " + id;
@@ -74,9 +74,9 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on X, Y, Z
-	* @param {Object} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* @param {String} query: the query string (coords?xlt=500&ygt=900), currently implementet for less than or greater than X/Y/Z constraints with AND conditional 
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForQuery: function(query, format, cb){
 		var coordMap = {"xlt" : "x_coord < ", "xgt": "x_coord > ", "ylt" : "y_coord < ", "ygt": "y_coord > ", "zlt" : "z_coord < ", "zgt": "z_coord > "};
@@ -93,7 +93,7 @@ module.exports = {
 			} 
 		}
 		queryText += ";";
-		console.log(queryText);
+		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
 		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
 			if(err) {
@@ -108,10 +108,10 @@ module.exports = {
 	},
 	/**
 	* Method to get the coordinates based on height
-	* @param {Object} lt (less than) or gt (greater than)
-	* @param {Object} val: height
-	* @param {Object} format : format in which data returned, currently supports only JSON
-	* @param {Object} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	* @param {String} condn : lt (less than) or gt (greater than)
+	* @param {Number} val : height
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getValuesByHeight: function(condn, val, format, cb){
 		var conditionMap = {"gt" : "height > ", "lt": "height < "};
