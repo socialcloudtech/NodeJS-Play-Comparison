@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           						controllers.Application.index()
 GET		/coords/:paramId									controllers.Application.respondCoordsId(paramId: Long)
 GET		/coords/height/gt/:paramHeightGt					controllers.Application.respondForHeightGreaterThan(paramHeightGt: Long)
 GET		/coords/height/lt/:paramHeightLt					controllers.Application.respondForHeightLessThan(paramHeightLt: Long)
