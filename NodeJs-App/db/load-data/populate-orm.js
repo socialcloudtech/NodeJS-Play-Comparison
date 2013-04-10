@@ -1,7 +1,7 @@
 //This script is used for populating the database. Databse contains configurable no. of rows
 
 var async = require("async"),
-	utils = require("../../utils"),
+	utils = require("../utils"),
     dataload = require("../doa-orm-sequelize"),
     Sequelize = require('sequelize-postgres').sequelize,
 	postgres  = require('sequelize-postgres').postgres,

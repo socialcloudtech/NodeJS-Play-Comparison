@@ -1,7 +1,7 @@
 //This script is used for populating the database. Database contains configurable no. of rows
 
 var async = require("async"),
-	utils = require("../../utils"),
+	utils = require("../utils"),
 	config = require("../../config/dbconfig"),
 	pg = require('pg'),
     conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
