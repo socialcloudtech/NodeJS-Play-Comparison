@@ -16,9 +16,9 @@ Please have the following installed.
 Download the latest Java [Play binary package](http://www.playframework.com/download "Download Play"). Here We've used version 2.0 so download the exact version would be the best. Once download is finished, extract the archive to a location where you've both the read and write permission.
 
 ####Add the play script to PATH####
-
+-----------------------------------
 1. On Windows you’ll need to set it in the global environment variables. This means update the PATH in the environment variables and don’t use a path with spaces.
-2. On Mac OS. do the following steps
+2. On Mac OS follow the below mentioned steps.
 
 + Open Terminal
 + $ cd ~
@@ -31,4 +31,16 @@ To check that the play command is available hit the following command from shell
 
 + $ play help
 
+####Setting up the DB####
+-----------------------------------
+1. Go to Play-App/conf/
+2. Open application.conf file
 
+Now change the values for the following variables.
+
++ db.default.driver=org.postgresql.Driver 
++ db.default.url="postgres://username:password@localhost/DBName"
++ db.default.user=username
++ db.default.password=password
+
+Detailed information are at [SettingJDBC](http://www.playframework.com/documentation/2.0/SettingsJDBC "SettingJDBC")
