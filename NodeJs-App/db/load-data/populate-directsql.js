@@ -5,6 +5,7 @@ var async = require("async"),
 	config = require("../../config/dbconfig"),
 	pg = require('pg'),
     conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
+    NUMBER_ROWS = config.nrows
     client = null,
     dataload = require("../doa-directsql");
 
@@ -12,8 +13,6 @@ var async = require("async"),
 //var conString = "tcp://postgres:synerzip:5432@localhost/postgres";
 //var conString = "postgres://postgres:synerzip@localhost/postgres";
 //var client = new pg.Client(conString);
-
-var NUMBER_ROWS = 10000;
 
 //funtion to execute the insert row query
 function insertRow(name, date, x, y , z, height, i, client, cb) {

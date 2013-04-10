@@ -7,9 +7,8 @@ var async = require("async"),
 	postgres  = require('sequelize-postgres').postgres,
 	sequelize = null,
 	chainer = new Sequelize.Utils.QueryChainer,
-	config = require("../../config/dbconfig");
-
-var NUMBER_ROWS = 10000;
+	config = require("../../config/dbconfig"),
+	NUMBER_ROWS = config.nrows;
 
 //funtion to execute the insert row query
 function insertRow(name, date, x, y , z, height, i, client, cb) {
@@ -26,8 +25,7 @@ function insertRow(name, date, x, y , z, height, i, client, cb) {
     });
 }
 
-var generateDataTable = function(nRows, client, cb) {
-	NUMBER_ROWS = nRows;
+var generateDataTable = function(client, cb) {
 	console.log("in generate data table");
 	var createAndFillTable = function() {
 	}

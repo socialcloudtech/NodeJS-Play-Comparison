@@ -3,8 +3,6 @@ var pg = require('pg'),
     conString = conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
     client = null;
 
-var NUMBER_ROWS = 10000;
-
 /**
  * Helper function to prepare array from data returned  from query
  * @param {Object} queryText : the SQL statement for query
