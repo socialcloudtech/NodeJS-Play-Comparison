@@ -1,6 +1,5 @@
 var Sequelize = require('sequelize-postgres').sequelize,
 	postgres  = require('sequelize-postgres').postgres,
-	utils = require ("../utils"),
 	config = require("../config/dbconfig");
 
 process.on('uncaughtException', function(err){
