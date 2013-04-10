@@ -27,8 +27,8 @@ Download the latest Java [Play binary package](http://www.playframework.com/down
 + export PATH=$PATH:/absolute/path/to/play
 + $ . .bash_profile
 
-Add the above line to .bash_profile and to check that the play command is available hit the following command from shell
+To check that the play command is available hit the following command from shell
 
-$play help
++ $play help
 
 
