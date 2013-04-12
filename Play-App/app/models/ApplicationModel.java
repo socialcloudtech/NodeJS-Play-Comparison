@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 
@@ -93,17 +94,22 @@ public class ApplicationModel {
 	 * @return {ResultSet} resultSet : ResultSet of parsed SQLQuery.
 	 * @throws SQLException
 	 */
-	public static ResultSet getValuesByQueryParams(String queryString)
+	public static ResultSet getValuesByQueryParams(String queryString,List<Float> coordsValue)
 			throws SQLException {
 
 		 /* 
 		 * {PreparedStatement} preparedStatement : PreparedStatement to be supplied to connection object.  
 		 * {ResultSet} resultSet : ResultSet representing the result of parsed SQLQuery.
 		 */
+		
 		PreparedStatement preparedStatement = connection
 				.prepareStatement(queryString);
+		
+		for(int i=0;i<coordsValue.size(); i++){
+			preparedStatement.setFloat((i+1), coordsValue.get(i));
+		}
+		
 		ResultSet resultSet = preparedStatement.executeQuery();
-
 		return resultSet;
 	}
 

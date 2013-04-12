@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -159,20 +160,29 @@ public class Application extends Controller {
 		coordsMap.put("zgt", "z_coord >");
 
 		// incoming query string parameters
+		
 		final Set<Entry<String, String[]>> entries = request().queryString()
 				.entrySet();
-
+		List<Float> coordsValue = new ArrayList<Float>();
+		
 		for (Entry<String, String[]> entry : entries) {
 
 			queryString += condition + " " + coordsMap.get(entry.getKey())
-					+ " " + entry.getValue()[0];
+					+ " " + "?" ;
+			
+			coordsValue.add(Float.valueOf(entry.getValue()[0]).floatValue());
+			
 			if (condition == "") {
 				condition = " AND";
 			}
+			
 		}
+		
 		ResultSet resultSetForQueryParams = ApplicationModel
-				.getValuesByQueryParams(queryString);
+				.getValuesByQueryParams(queryString, coordsValue);
+		
 		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
+		
 		while (resultSetForQueryParams.next()) {
 
 			ObjectNode resultSetAsJson = Json.newObject();
@@ -187,6 +197,7 @@ public class Application extends Controller {
 
 			jsonArray.add(resultSetAsJson);
 		}
+//		return TODO;
 		return ok(toJson(jsonArray));
 
 	}
