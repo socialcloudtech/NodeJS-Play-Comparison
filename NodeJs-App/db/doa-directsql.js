@@ -68,6 +68,9 @@ module.exports = {
 	getCoordinatesForId: function (id, format, cb) {
 		var queryText = "SELECT * FROM test_table WHERE id = $1";
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "name":"name", "start_date":"start_date"};
+		//example : http://localhost:8080/coords/1234
+		//queryText = 'SELECT * FROM test_table WHERE id = $1;'
+		//valueArray = [1234]
 		getResultArrayForQuery(queryText, [id], paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
@@ -107,6 +110,9 @@ module.exports = {
 		queryText += ";";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
+		//example : http://localhost:8080/coords?xgt=990&ygt=900.00&zlt=100
+		//queryText = 'SELECT x_coord, y_coord, z_coord FROM test_table WHERE x_coord >  $1 AND y_coord > $2 AND z_coord < $3';
+		//valueArray = [990, 900, 100]
 		//console.log(queryText);
 		//console.log(valueArray);
 		getResultArrayForQuery(queryText, valueArray, paramsMap, function(err, resultArray) {
@@ -138,6 +144,9 @@ module.exports = {
 		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn];
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height"};
+		//example : http://localhost:8080/height/gt/123
+		//queryText = 'SELECT x_coord, y_coord, z_coord, height FROM test_table WHERE height > $1;'
+		//valueArray = [123]
 		getResultArrayForQuery(queryText, [val], paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
