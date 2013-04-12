@@ -81,7 +81,7 @@ function generateDataTable (client, cb) {
 		});
 	}
 	//drop existing table adn create new
-	var DROP_TABLE = 'DROP TABLE test_table';
+	var DROP_TABLE = 'DROP TABLE IF EXISTS test_table';
 	client.query(DROP_TABLE, function(err, res){
 		if(err) {
 			console.log("Error while drop table !");
