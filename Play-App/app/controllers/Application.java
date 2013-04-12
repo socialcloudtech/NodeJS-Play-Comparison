@@ -28,25 +28,30 @@ public class Application extends Controller {
 	/**
 	 * Handler for /coords/:id route
 	 * @param {Long} paramId : Long representing the id
-	 * @param {ResultSet} resultSetForId : ResultSet to handle result from getCoordinatesForId.
-	 * @param {Function} getCoordinatesForId: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramId 
 	 * @return {ObjectNode} resultSetAsJson : ObjectNode representing the result as JSON
+	 * 
 	 * @throws SQLException
 	 */
 	public static Result respondCoordsId(Long paramId) throws SQLException {
+		
+		/*
+		 *  {ResultSet} resultSetForId : ResultSet to handle result from getCoordinatesForId.
+		 *  {Function} getCoordinatesForId: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramId
+		 * 
+		 */
 		ResultSet resultSetForId = ApplicationModel
 				.getCoordinatesForId(paramId);
 		ObjectNode resultSetAsJson = Json.newObject();
 
 		while (resultSetForId.next()) {
-			resultSetAsJson.put("id", resultSetForId.getString("id"));
+			resultSetAsJson.put("id", resultSetForId.getInt("id"));
 			resultSetAsJson.put("name", resultSetForId.getString("name"));
 			resultSetAsJson.put("start_date",
 					resultSetForId.getString("start_date"));
-			resultSetAsJson.put("x_coord", resultSetForId.getString("x_coord"));
-			resultSetAsJson.put("y_coord", resultSetForId.getString("y_coord"));
-			resultSetAsJson.put("z_coord", resultSetForId.getString("z_coord"));
-			resultSetAsJson.put("height", resultSetForId.getString("height"));
+			resultSetAsJson.put("x_coord", resultSetForId.getLong("x_coord"));
+			resultSetAsJson.put("y_coord", resultSetForId.getLong("y_coord"));
+			resultSetAsJson.put("z_coord", resultSetForId.getLong("z_coord"));
+			resultSetAsJson.put("height", resultSetForId.getLong("height"));
 		}
 		return ok(toJson(resultSetAsJson));
 	}
@@ -54,16 +59,19 @@ public class Application extends Controller {
 	/**
 	 * Handler for /coords/height/gt/:paramHeightGt route
 	 * @param {Long} paramHeightGt : Long representing the greater than height
-	 * @param {ResultSet} resultSetForHeightGreaterThan : ResultSet to handle result from getHeightGreaterThan.
-	 * @param {Functin} getHeightGreaterThan : Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightGt
-	 * 
 	 * @return {ArrayList{ObjectNode}} jsonArray : ArrayList of ObjectNode representing the array of JSON elements
-	 * @param {ObjectNode} resultSetAsJson: ObjectNode representing the single JSON element.
 	 * 
 	 * @throws SQLException
 	 */
 	public static Result respondForHeightGreaterThan(Long paramHeightGt)
 			throws SQLException {
+		
+		/*
+		 * 
+		 *  {ResultSet} resultSetForHeightGreaterThan : ResultSet to handle result from getHeightGreaterThan.
+		 *  {Functin} getHeightGreaterThan : Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightGt
+		 *  {ObjectNode} resultSetAsJson: ObjectNode representing the single JSON element. 
+		 */
 		ResultSet resultSetForHeightGreaterThan = ApplicationModel
 				.getHeightGreaterThan(paramHeightGt);
 		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
@@ -71,13 +79,13 @@ public class Application extends Controller {
 		while (resultSetForHeightGreaterThan.next()) {
 			ObjectNode resultSetAsJson = Json.newObject();
 			resultSetAsJson.put("x_coords",
-					resultSetForHeightGreaterThan.getString("x_coord"));
+					resultSetForHeightGreaterThan.getLong("x_coord"));
 			resultSetAsJson.put("y_coords",
-					resultSetForHeightGreaterThan.getString("y_coord"));
+					resultSetForHeightGreaterThan.getLong("y_coord"));
 			resultSetAsJson.put("z_coords",
-					resultSetForHeightGreaterThan.getString("z_coord"));
+					resultSetForHeightGreaterThan.getLong("z_coord"));
 			resultSetAsJson.put("height",
-					resultSetForHeightGreaterThan.getString("height"));
+					resultSetForHeightGreaterThan.getLong("height"));
 			jsonArray.add(resultSetAsJson);
 		}
 
@@ -87,16 +95,18 @@ public class Application extends Controller {
 	/**
 	 * Handler for /coords/height/lt/:paramHeightLt route
 	 * @param {Long} paramHeightLt : Long representing the less than height
-	 * @param {ResultSet} resultSetForHeighLessThan : ResultSet to handle result from getHeightLessThan.
-	 * @param {Function} getHeightLessThan: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightLt
 	 * @return {ArrayList{ObjectNode}} jsonArray : ArrayList of ObjectNode representing the array of JSON elements.
-	 * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
-	 * 	
-	 * 
+	 * 	  
 	 * @throws SQLException
 	 */
 	public static Result respondForHeightLessThan(Long paramHeightLt)
 			throws SQLException {
+		
+		 /* 
+		  * @param {ResultSet} resultSetForHeighLessThan : ResultSet to handle result from getHeightLessThan.
+		  * @param {Function} getHeightLessThan: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightLt
+		  * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
+		  */
 		ResultSet resultSetForHeighLessThan = ApplicationModel
 				.getHeightLessThan(paramHeightLt);
 		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
@@ -104,13 +114,13 @@ public class Application extends Controller {
 		while (resultSetForHeighLessThan.next()) {
 			ObjectNode resultSetAsJson = Json.newObject();
 			resultSetAsJson.put("x_coords",
-					resultSetForHeighLessThan.getString("x_coord"));
+					resultSetForHeighLessThan.getLong("x_coord"));
 			resultSetAsJson.put("y_coords",
-					resultSetForHeighLessThan.getString("y_coord"));
+					resultSetForHeighLessThan.getLong("y_coord"));
 			resultSetAsJson.put("z_coords",
-					resultSetForHeighLessThan.getString("z_coord"));
+					resultSetForHeighLessThan.getLong("z_coord"));
 			resultSetAsJson.put("height",
-					resultSetForHeighLessThan.getString("height"));
+					resultSetForHeighLessThan.getLong("height"));
 			jsonArray.add(resultSetAsJson);
 		}
 
@@ -119,18 +129,20 @@ public class Application extends Controller {
 
 	/**
 	 * Handler for /coords? route
-	 * @param {String} queryString : String representing the first part of Query
-	 * @param {String} condition : String representing the conditional part of Query
-	 * @param {Map} coordsMap : HashMap representing the combination of greater than and lesser than X,Y,Z coords to be matched with Set of entries   
-	 * @param {Set} entries : Set representing the http request query string parameters
-	 * @param {ResultSet} resultSetForQueryParams: ResultSet to handle result from getValuesByQueryParams. 
-	 * @param {Function} getValuesByQueryParams : Static function of ApplicationModel that accepts the String and returns the result on the basis of queryString
 	 * @return {ArrayList{ObjectNode}} jsonArray : ArrayList of ObjectNode representing the array of JSON elements.
-	 * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
 	 * @throws SQLException
 	 */
 	public static Result respondWithQueryParams() throws SQLException {
-
+		
+		/* @param {String} queryString : String representing the first part of Query
+		 * @param {String} condition : String representing the conditional part of Query
+		 * @param {Map} coordsMap : HashMap representing the combination of greater than and lesser than X,Y,Z coords to be matched with Set of entries   
+		 * @param {Set} entries : Set representing the http request query string parameters
+		 * @param {ResultSet} resultSetForQueryParams: ResultSet to handle result from getValuesByQueryParams. 
+		 * @param {Function} getValuesByQueryParams : Static function of ApplicationModel that accepts the String and returns the result on the basis of queryString
+		 * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
+		 */
+		
 		// prepare first part of query string
 		String queryString = "SELECT * FROM test_table WHERE";
 
