@@ -21,6 +21,7 @@ General Setup
 
 Setting up the DB
 =================
+The below instructions should be used on the machine where DB exists.
 
 1.  Open up the file config/dbconfig.js
 2.  Parameters like database-name ("db"), host, port, password, username and protocol have been setup with default values. Change as required. Also, the number of rows can be set as required, default value is 10000
@@ -29,6 +30,8 @@ Setting up the DB
 Start the Server
 ================
 
+On the machine where nodejs server is running, edit the dbconfig file and setup the postgres db parameters as per the location of db.
+Then execute the command:
 node server.js
 
 This will start a server on localhost port 8080.
