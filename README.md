@@ -15,7 +15,9 @@ The response time for the requests and the performance of servers is tested base
 REST URLS supported
 ===================
 
-- GET /coords/id - Get the X,Y, Z coordinates based on id
-- GET /coords?<query> - GET X, Y, Z query is of type xlt=500&ygt=300&zgt=600 - The x/y/z params less/greater than a particular value. 
-- GET /height/lt/val - Get the height less than val
-- GET /height/gt/:val' - Get the height greater than val
+- GET /coords/id - get record id - returns X, Y, Z, height, start_date and name
+- GET /coords?<query> - query is of type xlt=500&ygt=300&zgt=600 - The X/Y/Z params less/greater than a particular value - returns X, Y, Z
+- GET /height/lt/val - get the height less than val - returns X, Y, Z and height
+- GET /height/gt/:val' - get the height greater than val - returns X, Y, Z and height
+
+The data is returned in JSON format for all above API's.
