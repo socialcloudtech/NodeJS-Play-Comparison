@@ -57,7 +57,7 @@ module.exports = {
 		});
 	},
 	/**
-	* Method to get the coordinates based on only id
+	* Method to get the record for an id
 	* @author nachiket
 	* @version 0.1.0
 	* @param {Number} id : id for which coordinates required
@@ -65,8 +65,8 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForId: function (id, format, cb) {
-		var queryText = "SELECT x_coord, y_coord, z_coord FROM test_table WHERE id = " + id;
-		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
+		var queryText = "SELECT * FROM test_table WHERE id = " + id;
+		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "name":"name", "start_date":"start_date"};
 		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');

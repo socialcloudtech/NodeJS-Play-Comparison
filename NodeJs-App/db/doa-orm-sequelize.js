@@ -63,7 +63,7 @@ module.exports = {
 	*/
 	getCoordinatesForId: function (id, format, cb) {
 		var queryText = "SELECT x_coord, y_coord, z_coord FROM test_table WHERE id = " + id;
-		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
+		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "name":"name", "start_date":"start_date"};
 		Test.find(id).success(function(result){
 			//console.log(result);
 			if(result == null) {
