@@ -7,13 +7,14 @@ var pg = require('pg'),
  * Helper function to prepare array from data returned  from query
  * @author nachiket
  * @version 0.1.0
- * @param {String} queryText : the SQL statement for query
+ * @param {String} queryText : the parameterized SQL statement for query
+ * @param {Array} valueArray : array of values for the parameterized query
  * @param {Object} paramsMap : Mapping of column name and parameter name
  * @param {Function} cb : callback (resObject) : callback to call after completion, gives the result array
  */
-function getResultArrayForQuery(queryText, paramsMap, cb){
+function getResultArrayForQuery(queryText, valueArray, paramsMap, cb){
 	var resultArray = [],
-	    query = client.query(queryText);
+	    query = client.query(queryText, valueArray);
 	query.on('error', function(err) {
 		cb(err, null);
 	});
@@ -65,9 +66,9 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForId: function (id, format, cb) {
-		var queryText = "SELECT * FROM test_table WHERE id = " + id;
+		var queryText = "SELECT * FROM test_table WHERE id = $1";
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "name":"name", "start_date":"start_date"};
-		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
+		getResultArrayForQuery(queryText, [id], paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
 				return;
@@ -87,23 +88,28 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getCoordinatesForQuery: function(query, format, cb){
-		var coordMap = {"xlt" : "x_coord < ", "xgt": "x_coord > ", "ylt" : "y_coord < ", "ygt": "y_coord > ", "zlt" : "z_coord < ", "zgt": "z_coord > "};
+		var coordMap = {"xlt" : "x_coord < $", "xgt": "x_coord > $", "ylt" : "y_coord < $", "ygt": "y_coord > $", "zlt" : "z_coord < $", "zgt": "z_coord > $"};
 		var queryText = "SELECT x_coord, y_coord, z_coord from test_table WHERE";
-		var i = 0, condition = "";
+		var valueArray = [];
+		var i = 1, condition = "";
 		for (q in query) {
 			if(coordMap[q] == undefined) {
 				cb(404, '{"Error":"Resource not Found"}');
+				return;
 			}
-			queryText += condition + " " + coordMap[q] + query[q];
-			if (i == 0){
+			queryText += condition + " " + coordMap[q] + i;
+			valueArray.push(query[q]);
+			if (i == 1){
 				condition = " AND";
-				i++;
 			} 
+			i++;
 		}
 		queryText += ";";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
-		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
+		//console.log(queryText);
+		//console.log(valueArray);
+		getResultArrayForQuery(queryText, valueArray, paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
 				return;
@@ -124,11 +130,15 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getValuesByHeight: function(condn, val, format, cb){
-		var conditionMap = {"gt" : "height > ", "lt": "height < "};
-		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn] + val;
+		var conditionMap = {"gt" : "height > $1", "lt": "height < $1"};
+		if(!(condn == 'gt' || condn == 'lt')) {
+			cb (400, '{"Error":"lt or gt not provided"');
+			return;
+		}
+		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn];
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height"};
-		getResultArrayForQuery(queryText, paramsMap, function(err, resultArray) {
+		getResultArrayForQuery(queryText, [val], paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
 				return;
