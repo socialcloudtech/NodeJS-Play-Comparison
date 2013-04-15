@@ -17,11 +17,10 @@ General Setup
 =============
 
 0.  Checkout the repo. Change the current working directory to the NodeJs-App directory 
-1.  run 'npm install'. This will install dependencies like pg, async, resttify, sequelize and sequelize-postgres
-
+1.  run 'npm install'. This will install dependencies like [pg] (https://github.com/brianc/node-postgres), [async] (https://github.com/caolan/async), [resttify] (https://github.com/mcavage/node-restify), [sequelize] (https://github.com/sequelize)
 Setting up the DB
 =================
-The below instructions should be used on the machine where DB exists.
+The below instructions should be used on the machine where DB is going to be hosted.
 
 1.  Open up the file config/dbconfig.js
 2.  Parameters like database-name ("db"), host, port, password, username and protocol have been setup with default values. Change as required. Also, the number of rows can be set as required, default value is 10000

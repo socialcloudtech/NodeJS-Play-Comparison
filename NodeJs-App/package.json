@@ -10,8 +10,7 @@
         "pg": "latest",
         "async": "latest",
 		"restify": "latest",
-        "sequelize": "latest",
-        "sequelize-postgres": "latest"
+        "sequelize": "latest"
     },
     "devDependencies": {},
     "optionalDependencies": {},
