@@ -5,4 +5,5 @@ module.exports = function(server) {
 	server.get('/coords?^', api.respondWithQueryParams);
 	server.get('/height/lt/:val', api.respondForHeightLessThan);
 	server.get('/height/gt/:val', api.respondForHeightGreaterThan);
+	server.get('/coords/product/all', api.respondForProductAll);
 }

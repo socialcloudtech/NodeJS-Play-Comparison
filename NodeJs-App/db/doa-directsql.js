@@ -26,7 +26,11 @@ function getResultArrayForQuery(queryText, valueArray, paramsMap, cb){
 		//console.log('result row');
 		var resObject = {};
 		for(p in paramsMap) {
-			resObject[paramsMap[p]] = row[p];
+			if (p == 'product') {
+				resObject['product'] = row['x_coord'] * row['y_coord'] * row['z_coord'];
+			} else if(row[p]){
+				resObject[paramsMap[p]] = row[p];
+			}
 			//resObject["y_coord"] = row.y_coord;
 			//resObject["z_coord"] = row.z_coord;
 		}
@@ -152,6 +156,28 @@ module.exports = {
 		//queryText = 'SELECT x_coord, y_coord, z_coord, height FROM test_table WHERE height > $1;'
 		//valueArray = [123]
 		getResultArrayForQuery(queryText, [val], paramsMap, function(err, resultArray) {
+			if(err) {
+				cb (404, '{"Error":"' + err.message + '"');
+				return;
+			}
+			if(format == 'JSON') {
+				resultString = JSON.stringify(resultArray);
+			}
+			cb(200, resultString);
+		});
+	},
+	/**
+	* Method to get the coordinates based on height
+	* @author nachiket
+	* @version 0.1.0
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	*/
+	getProductForAll: function(format, cb){
+		var queryText = "SELECT * from test_table";
+		//console.log(queryText);
+		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "product":"-"};
+		getResultArrayForQuery(queryText, [], paramsMap, function(err, resultArray) {
 			if(err) {
 				cb (404, '{"Error":"' + err.message + '"');
 				return;

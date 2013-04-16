@@ -159,5 +159,15 @@ module.exports = {
 			cb (500, '{"Error":"Internal Server Error"');
 			return;
 		});
+	},
+	/**
+	* Method to get the coordinates based on height
+	* @author nachiket
+	* @version 0.1.0
+	* @param {String} format : format in which data returned, currently supports only "JSON"
+	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
+	*/
+	getProductForAll: function(format, cb){
+		cb(200, '{"ToDo":"This route is Under Construction"}');
 	}
 }

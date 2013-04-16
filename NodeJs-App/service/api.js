@@ -73,5 +73,19 @@ module.exports = {
 			res.send(responseCode, result);
 			return next();
 		});
+	},
+	/**
+	* Handler for the /coords/product/all route
+	* @author nachiket
+	* @version 0.1.0
+	* @param {Object} req : object representing the http request
+	* @param {Object} res : object for the response
+	* @param {Function} next : must be called so that the next handler in chain is invoked.
+	*/
+	respondForProductAll: function(req, res, next) {
+		data.getProductForAll('JSON', function(responseCode, result){
+			res.send(responseCode, result);
+			return next();
+		});
 	}
 }
