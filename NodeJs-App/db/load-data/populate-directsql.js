@@ -9,6 +9,9 @@ var async = require("async"),
     client = null,
     dataload = require("../doa-directsql");
 
+    //set pool-size as per config
+    //console.log("poolsize = " + pg.defaults.poolSize);
+    pg.defaults.poolSize = config.poolSize;
 /**
  * Helper function to insert given values into table
  * @author nachiket

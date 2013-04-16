@@ -3,6 +3,10 @@ var pg = require('pg'),
     conString = conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
     client = null;
 
+	//set pool-size as per config
+    //console.log("poolsize = " + pg.defaults.poolSize);
+    pg.defaults.poolSize = config.poolSize;
+
 /**
  * Helper function to prepare array from data returned  from query
  * @author nachiket
