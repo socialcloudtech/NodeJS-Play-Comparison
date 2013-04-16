@@ -8,7 +8,7 @@ GET		/coords/:paramId									controllers.Application.respondCoordsId(paramId: L
 GET		/coords/height/gt/:paramHeightGt					controllers.Application.respondForHeightGreaterThan(paramHeightGt: Long)
 GET		/coords/height/lt/:paramHeightLt					controllers.Application.respondForHeightLessThan(paramHeightLt: Long)
 GET 	/coords												controllers.Application.respondWithQueryParams()
-
+GET     /coords/product/all                           		controllers.Application.respondForAllCoordinates()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

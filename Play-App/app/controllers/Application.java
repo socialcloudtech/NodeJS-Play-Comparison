@@ -2,6 +2,7 @@ package controllers;
 
 import static play.libs.Json.toJson;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,10 +50,10 @@ public class Application extends Controller {
 			resultSetAsJson.put("name", resultSetForId.getString("name"));
 			resultSetAsJson.put("start_date",
 					resultSetForId.getString("start_date"));
-			resultSetAsJson.put("x_coord", resultSetForId.getLong("x_coord"));
-			resultSetAsJson.put("y_coord", resultSetForId.getLong("y_coord"));
-			resultSetAsJson.put("z_coord", resultSetForId.getLong("z_coord"));
-			resultSetAsJson.put("height", resultSetForId.getLong("height"));
+			resultSetAsJson.put("x_coord", resultSetForId.getBigDecimal("x_coord"));
+			resultSetAsJson.put("y_coord", resultSetForId.getBigDecimal("y_coord"));
+			resultSetAsJson.put("z_coord", resultSetForId.getBigDecimal("z_coord"));
+			resultSetAsJson.put("height", resultSetForId.getBigDecimal("height"));
 		}
 		return ok(toJson(resultSetAsJson));
 	}
@@ -80,13 +81,13 @@ public class Application extends Controller {
 		while (resultSetForHeightGreaterThan.next()) {
 			ObjectNode resultSetAsJson = Json.newObject();
 			resultSetAsJson.put("x_coords",
-					resultSetForHeightGreaterThan.getLong("x_coord"));
+					resultSetForHeightGreaterThan.getBigDecimal("x_coord"));
 			resultSetAsJson.put("y_coords",
-					resultSetForHeightGreaterThan.getLong("y_coord"));
+					resultSetForHeightGreaterThan.getBigDecimal("y_coord"));
 			resultSetAsJson.put("z_coords",
-					resultSetForHeightGreaterThan.getLong("z_coord"));
+					resultSetForHeightGreaterThan.getBigDecimal("z_coord"));
 			resultSetAsJson.put("height",
-					resultSetForHeightGreaterThan.getLong("height"));
+					resultSetForHeightGreaterThan.getBigDecimal("height"));
 			jsonArray.add(resultSetAsJson);
 		}
 
@@ -115,13 +116,50 @@ public class Application extends Controller {
 		while (resultSetForHeighLessThan.next()) {
 			ObjectNode resultSetAsJson = Json.newObject();
 			resultSetAsJson.put("x_coords",
-					resultSetForHeighLessThan.getLong("x_coord"));
+					resultSetForHeighLessThan.getBigDecimal("x_coord"));
 			resultSetAsJson.put("y_coords",
-					resultSetForHeighLessThan.getLong("y_coord"));
+					resultSetForHeighLessThan.getBigDecimal("y_coord"));
 			resultSetAsJson.put("z_coords",
-					resultSetForHeighLessThan.getLong("z_coord"));
+					resultSetForHeighLessThan.getBigDecimal("z_coord"));
 			resultSetAsJson.put("height",
-					resultSetForHeighLessThan.getLong("height"));
+					resultSetForHeighLessThan.getBigDecimal("height"));
+			jsonArray.add(resultSetAsJson);
+		}
+
+		return ok(toJson(jsonArray));
+	}
+	
+	/**
+	 * Handler for /coords/product/all
+	 * 
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static Result respondForAllCoordinates() throws SQLException {
+		BigDecimal product = new BigDecimal(0);
+		BigDecimal x_coord = new BigDecimal(0);
+		BigDecimal y_coord = new BigDecimal(0);
+		BigDecimal z_coord = new BigDecimal(0);
+		ResultSet resulstSetForCoordinatesAll = ApplicationModel
+				.getCoordinatesForAll();
+		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
+
+		while (resulstSetForCoordinatesAll.next()) {
+			ObjectNode resultSetAsJson = Json.newObject();
+			
+			x_coord = resulstSetForCoordinatesAll.getBigDecimal("x_coord");
+			y_coord = resulstSetForCoordinatesAll.getBigDecimal("y_coord");
+			z_coord = resulstSetForCoordinatesAll.getBigDecimal("z_coord");
+			product = x_coord.multiply(y_coord).multiply(z_coord);
+					
+			resultSetAsJson.put("x_coords",x_coord);
+			resultSetAsJson.put("y_coords",y_coord);
+			resultSetAsJson.put("z_coords",z_coord);
+			resultSetAsJson.put("height",
+					resulstSetForCoordinatesAll.getBigDecimal("height"));
+			
+			resultSetAsJson.put("product",product);
+			
 			jsonArray.add(resultSetAsJson);
 		}
 

@@ -19,6 +19,25 @@ public class ApplicationModel {
 
 	static Connection connection = DB.getConnection();
 
+	
+	/**
+	 * getCoordinatesForAll : It executes Select query on test_table to fetch all the rows,and returns the ResultSet
+	 * 
+	 * @return {ResultSet} resultSet : ResultSet of parsed SQLQuery.
+	 * 
+	 * @throws SQLException
+	 */
+	public static ResultSet getCoordinatesForAll()
+			throws SQLException {
+		
+		String sql = "SELECT * FROM test_table";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		return resultSet;
+	}
+	
+	
 	/**
 	 * @param {Long} paramId : Long representing the id
 	 * 
