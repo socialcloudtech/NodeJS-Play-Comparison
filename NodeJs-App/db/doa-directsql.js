@@ -115,7 +115,7 @@ module.exports = {
 			} 
 			i++;
 		}
-		queryText += ";";
+		queryText += "  LIMIT 100000 ;";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
 		//example : http://localhost:8080/coords?xgt=990&ygt=900.00&zlt=100
@@ -149,7 +149,7 @@ module.exports = {
 			cb (400, '{"Error":"lt or gt not provided"');
 			return;
 		}
-		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn];
+		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn] + "  LIMIT 100000;";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height"};
 		//example : http://localhost:8080/height/gt/123
