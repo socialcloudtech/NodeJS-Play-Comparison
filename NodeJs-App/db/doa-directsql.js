@@ -174,7 +174,7 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getProductForAll: function(format, cb){
-		var queryText = "SELECT * from test_table";
+		var queryText = "SELECT * from test_table LIMIT 100000";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "product":"-"};
 		getResultArrayForQuery(queryText, [], paramsMap, function(err, resultArray) {
