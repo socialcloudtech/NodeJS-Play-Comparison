@@ -43,7 +43,7 @@ module.exports = {
 		});
 	},
 	/**
-	* Handler for the /height/gt/:val route
+	* Handler for the /coords/height/gt/:val route
 	* @author nachiket
 	* @version 0.1.0
 	* @param {Object} req : object representing the http request
@@ -59,7 +59,7 @@ module.exports = {
 		});
 	},
 	/**
-	* Handler for the /height/lt/:val route
+	* Handler for the /coords/height/lt/:val route
 	* @author nachiket
 	* @version 0.1.0
 	* @param {Object} req : object representing the http request
