@@ -30,7 +30,7 @@ public class ApplicationModel {
 	public static ResultSet getCoordinatesForAll()
 			throws SQLException {
 		
-		String sql = "SELECT * FROM test_table";
+		String sql = "SELECT * FROM test_table LIMIT 100000";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
