@@ -6,5 +6,6 @@ module.exports = {
 	username: "postgres", //username
 	protocol: "postgres", //protocol - tcp, postgres etc
 	nrows: 10000, //no. of rows - while populatin the db
-	poolSize: 20 //max number of connections in pool
+	poolSize: 20, //max number of connections in pool
+	maxRows: 10000 //max number of rows to return in a request
 }

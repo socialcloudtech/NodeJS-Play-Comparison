@@ -1,7 +1,8 @@
 var pg = require('pg'),
 	config = require("../config/dbconfig"),
     conString = conString = config.protocol + "://" + config.username + ":" + config.password + "@" + config.host + "/" + config.db,
-    client = null;
+    client = null,
+    LIMIT = config.maxRows;
 
 	//set pool-size as per config
     //console.log("poolsize = " + pg.defaults.poolSize);
@@ -115,7 +116,7 @@ module.exports = {
 			} 
 			i++;
 		}
-		queryText += "  LIMIT 100000 ;";
+		queryText += "  LIMIT " + LIMIT + ";";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z"};
 		//example : http://localhost:8080/coords?xgt=990&ygt=900.00&zlt=100
@@ -149,7 +150,7 @@ module.exports = {
 			cb (400, '{"Error":"lt or gt not provided"');
 			return;
 		}
-		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn] + "  LIMIT 100000;";
+		var queryText = "SELECT x_coord, y_coord, z_coord, height from test_table WHERE " + conditionMap[condn] + "  LIMIT " + LIMIT + ";";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height"};
 		//example : http://localhost:8080/height/gt/123
@@ -174,7 +175,7 @@ module.exports = {
 	* @param {Function} cb : callback(responseCode, resultString) : callback, provides response code and the string
 	*/
 	getProductForAll: function(format, cb){
-		var queryText = "SELECT * from test_table LIMIT 100000";
+		var queryText = "SELECT * from test_table LIMIT " + LIMIT + ";";
 		//console.log(queryText);
 		var paramsMap = {"x_coord": "X", "y_coord":"Y", "z_coord":"Z", "height":"height", "product":"-"};
 		getResultArrayForQuery(queryText, [], paramsMap, function(err, resultArray) {
