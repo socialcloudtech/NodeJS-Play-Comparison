@@ -18,7 +18,7 @@ import models.ApplicationModel;
 import play.libs.Json;
 import play.mvc.*;
 
-public class Application extends Controller {
+public class ApplicationController extends Controller {
 
 	/**
 	 * @return
@@ -76,6 +76,7 @@ public class Application extends Controller {
 		 */
 		ResultSet resultSetForHeightGreaterThan = ApplicationModel
 				.getHeightGreaterThan(paramHeightGt);
+		
 		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
 
 		while (resultSetForHeightGreaterThan.next()) {
@@ -211,7 +212,7 @@ public class Application extends Controller {
 		coordsMap.put("zgt", "z_coord >");
 
 		// incoming query string parameters
-		
+
 		final Set<Entry<String, String[]>> entries = request().queryString()
 				.entrySet();
 		List<Float> coordsValue = new ArrayList<Float>();
@@ -229,7 +230,9 @@ public class Application extends Controller {
 			
 		}
 		queryString += " LIMIT 100000";
-		System.out.println(queryString);
+		
+//		System.out.println(queryString);
+		
 		ResultSet resultSetForQueryParams = ApplicationModel
 				.getValuesByQueryParams(queryString, coordsValue);
 		
