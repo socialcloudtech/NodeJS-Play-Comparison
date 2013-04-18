@@ -229,7 +229,7 @@ public class ApplicationController extends Controller {
 			}
 			
 		}
-		queryString += " LIMIT 100000";
+		queryString += " LIMIT 10000";
 		
 //		System.out.println(queryString);
 		

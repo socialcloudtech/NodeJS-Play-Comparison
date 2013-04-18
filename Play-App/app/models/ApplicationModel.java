@@ -34,7 +34,7 @@ public class ApplicationModel {
 		/*
 		 * {String} sql : String representing the SQLQuery.
 		 */
-		String sql = "SELECT * FROM test_table LIMIT 100000";
+		String sql = "SELECT * FROM test_table LIMIT 10000";
 		connection.setAutoCommit(false);
 		Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
 		return statement.executeQuery(sql);
@@ -56,7 +56,7 @@ public class ApplicationModel {
 		 * {PreparedStatement} preparedStatement : PreparedStatement to be supplied to connection object.  
 		 */
 		
-		String sql = "SELECT * FROM test_table WHERE id = ?";
+		String sql = "SELECT * FROM test_table WHERE id = ? LIMIT 10000";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setLong(1, paramId);
 		return preparedStatement.executeQuery();
@@ -77,7 +77,7 @@ public class ApplicationModel {
 		 *  {PreparedStatement} preparedStatement : PreparedStatement to be supplied to connection object.  
 		 */
 		
-		String sql = "SELECT * FROM test_table WHERE height > ? LIMIT 100000";
+		String sql = "SELECT * FROM test_table WHERE height > ? LIMIT 10000";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setLong(1, paramHeightGt);
 		return preparedStatement.executeQuery();
@@ -98,7 +98,7 @@ public class ApplicationModel {
 		 * {PreparedStatement} preparedStatement : PreparedStatement to be supplied to connection object.  
 		 * {ResultSet} resultSet : ResultSet representing the result of parsed SQLQuery.
 		 */
-		String sql = "SELECT * FROM test_table WHERE height < ? LIMIT 100000";
+		String sql = "SELECT * FROM test_table WHERE height < ? LIMIT 10000";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		preparedStatement.setLong(1, paramHeightLt);
 		return preparedStatement.executeQuery();
