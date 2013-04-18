@@ -71,7 +71,7 @@ public class Application extends Controller {
 		/*
 		 * 
 		 *  {ResultSet} resultSetForHeightGreaterThan : ResultSet to handle result from getHeightGreaterThan.
-		 *  {Functin} getHeightGreaterThan : Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightGt
+		 *  {Function} getHeightGreaterThan : Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightGt
 		 *  {ObjectNode} resultSetAsJson: ObjectNode representing the single JSON element. 
 		 */
 		ResultSet resultSetForHeightGreaterThan = ApplicationModel
@@ -105,9 +105,9 @@ public class Application extends Controller {
 			throws SQLException {
 		
 		 /* 
-		  * @param {ResultSet} resultSetForHeighLessThan : ResultSet to handle result from getHeightLessThan.
-		  * @param {Function} getHeightLessThan: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightLt
-		  * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
+		  *  {ResultSet} resultSetForHeighLessThan : ResultSet to handle result from getHeightLessThan.
+		  *  {Function} getHeightLessThan: Static function of ApplicationModel that accepts the Long and returns the result of query on the basis of passed paramHeightLt
+		  *  {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
 		  */
 		ResultSet resultSetForHeighLessThan = ApplicationModel
 				.getHeightLessThan(paramHeightLt);
@@ -131,20 +131,33 @@ public class Application extends Controller {
 	
 	/**
 	 * Handler for /coords/product/all
-	 * 
-	 * @return
+	 * @return {ArrayList{ObjectNode}} jsonArray : ArrayList of ObjectNode representing the array of JSON elements
 	 * @throws SQLException 
 	 */
 	public static Result respondForAllCoordinates() throws SQLException {
+		
+		/*
+		 * {BigDecimal} product : to store the prodcut of x_coodr,y_coord,and z_coord
+		 * {BigDecimal} x_coord : to store x_coord
+		 * {BigDecimal} y_coord : to store y_coord
+		 * {BigDecimal} z_coord : to store z_coord
+		 * 
+		 * {Function} getCoordinatesForAll : Static function of ApplicationModel that returns the result of query
+		 * {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
+		 * 
+		 */
+		
 		BigDecimal product = new BigDecimal(0);
 		BigDecimal x_coord = new BigDecimal(0);
 		BigDecimal y_coord = new BigDecimal(0);
 		BigDecimal z_coord = new BigDecimal(0);
 		ResultSet resulstSetForCoordinatesAll = ApplicationModel
 				.getCoordinatesForAll();
+		
 		ArrayList<ObjectNode> jsonArray = new ArrayList<ObjectNode>();
 
 		while (resulstSetForCoordinatesAll.next()) {
+			
 			ObjectNode resultSetAsJson = Json.newObject();
 			
 			x_coord = resulstSetForCoordinatesAll.getBigDecimal("x_coord");
@@ -173,13 +186,13 @@ public class Application extends Controller {
 	 */
 	public static Result respondWithQueryParams() throws SQLException {
 		
-		/* @param {String} queryString : String representing the first part of Query
-		 * @param {String} condition : String representing the conditional part of Query
-		 * @param {Map} coordsMap : HashMap representing the combination of greater than and lesser than X,Y,Z coords to be matched with Set of entries   
-		 * @param {Set} entries : Set representing the http request query string parameters
-		 * @param {ResultSet} resultSetForQueryParams: ResultSet to handle result from getValuesByQueryParams. 
-		 * @param {Function} getValuesByQueryParams : Static function of ApplicationModel that accepts the String and returns the result on the basis of queryString
-		 * @param {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
+		/*  {String} queryString : String representing the first part of Query
+		 *  {String} condition : String representing the conditional part of Query
+		 *  {Map} coordsMap : HashMap representing the combination of greater than and lesser than X,Y,Z coords to be matched with Set of entries   
+		 *  {Set} entries : Set representing the http request query string parameters
+		 *  {ResultSet} resultSetForQueryParams: ResultSet to handle result from getValuesByQueryParams. 
+		 *  {Function} getValuesByQueryParams : Static function of ApplicationModel that accepts the String and returns the result on the basis of queryString
+		 *  {ObjectNode} resultSetAsJson : ObjectNode to represent single element of JSON
 		 */
 		
 		// prepare first part of query string
@@ -215,7 +228,8 @@ public class Application extends Controller {
 			}
 			
 		}
-		
+		queryString += " LIMIT 100000";
+		System.out.println(queryString);
 		ResultSet resultSetForQueryParams = ApplicationModel
 				.getValuesByQueryParams(queryString, coordsValue);
 		
@@ -235,7 +249,6 @@ public class Application extends Controller {
 
 			jsonArray.add(resultSetAsJson);
 		}
-//		return TODO;
 		return ok(toJson(jsonArray));
 
 	}
