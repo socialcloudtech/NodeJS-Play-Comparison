@@ -37,7 +37,7 @@ function getResultArrayForQuery(queryText, valueArray, paramsMap, cb){
 		}
 		resultArray.push(resObject);
 	});
-	query.on('end', function(row) {
+	query.on('end', function() {
 		//console.log('result end');
 		cb(null, resultArray);
 	});
